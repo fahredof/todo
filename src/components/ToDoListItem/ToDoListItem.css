@@ -1,0 +1,11 @@
+.todo-list-item {
+    cursor: pointer;
+}
+
+.done {
+    text-decoration: line-through;
+}
+
+.important {
+    color: dodgerblue;
+}

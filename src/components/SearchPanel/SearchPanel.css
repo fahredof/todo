@@ -1,0 +1,5 @@
+.search-panel {
+    grid-area: search;
+    display: flex;
+    justify-content: flex-end;
+}
