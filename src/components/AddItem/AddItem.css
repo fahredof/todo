@@ -1,0 +1,5 @@
+.add-item {
+    grid-area: add;
+    display: flex;
+    justify-content: center;
+}

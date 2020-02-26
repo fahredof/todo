@@ -5,8 +5,11 @@ import AppHeader from "../AppHeader";
 import SearchPanel from "../SearchPanel";
 import ToDoList from "../ToDoList";
 import StatusFilter from "../StatusFilter";
+import AddItem from "../AddItem";
 
 export default class App extends Component {
+    maxId = 100;
+
     state = {
         toDoData: [
             {label: `Drink Coffee`, important: false, id: 1},
@@ -28,6 +31,29 @@ export default class App extends Component {
         })
     };
 
+    addItem = (text) => {
+        const newItem = {
+            label: text,
+            important: false,
+            id: this.maxId++
+        };
+
+        this.setState(({toDoData}) => {
+            const newArray = [...toDoData, newItem];
+            return {
+                toDoData: newArray
+            }
+        })
+    };
+
+    onToggleImportant = (id) => {
+        console.log("Important", id)
+    };
+
+    onToggleDone = (id) => {
+        console.log("Done", id)
+    };
+
     render() {
         return (
             <div className="body">
@@ -37,7 +63,10 @@ export default class App extends Component {
                 <ToDoList
                     toDoData={this.state.toDoData}
                     onDeleted={(id) => this.deleteItem(id)}
+                    onToggleImportant={this.onToggleImportant}
+                    onToggleDone={this.onToggleDone}
                 />
+                <AddItem onAdded={this.addItem}/>
             </div>
         );
     }

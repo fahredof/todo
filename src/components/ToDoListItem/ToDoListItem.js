@@ -1,14 +1,12 @@
 import React, {Component} from "react";
 import "./ToDoListItem.css";
 
-//TODO: code TurnedInIcon with TurnedInNotIcon
-
 import TurnedInNotIcon from '@material-ui/icons/TurnedInNot';
 import TurnedInIcon from '@material-ui/icons/TurnedIn';
 import DeleteIcon from '@material-ui/icons/Delete';
 import IconButton from "@material-ui/core/IconButton";
 
-class ToDoListItem extends Component {
+export default class ToDoListItem extends Component {
 
     state = {
         done: false,
@@ -34,7 +32,7 @@ class ToDoListItem extends Component {
     };
 
     render() {
-        const {onDeleted} = this.props;
+        const {onDeleted, onToggleImportant, onToggleDone} = this.props;
         const {label} = this.props;
         const {done, important, importantButton} = this.state;
         let classNames = "todo-list-item";
@@ -58,7 +56,10 @@ class ToDoListItem extends Component {
 
                 {
                     importantButton ?
-                        <IconButton onClick={this.onMarkImportant}>
+                        <IconButton
+                            onClick={this.onMarkImportant}
+                            //onClick={this.onToggleImportant}
+                        >
                             <TurnedInIcon aria-label="delete"/>
                         </IconButton>
                         :
@@ -75,5 +76,3 @@ class ToDoListItem extends Component {
 
     }
 }
-
-export default ToDoListItem;
