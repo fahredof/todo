@@ -17,19 +17,24 @@ class ToDoListItem extends Component {
     };
 
     onLabelClick = () => {
-        this.setState({
-            done: true
+        this.setState(({done}) => {
+            return {
+                done: !done
+            }
         });
     };
 
     onMarkImportant = () => {
-        this.setState({
-            important: true,
-            importantButton: true
+        this.setState(({important, importantButton}) => {
+            return {
+                important: !important,
+                importantButton: !importantButton
+            }
         });
     };
 
     render() {
+        const {onDeleted} = this.props;
         const {label} = this.props;
         const {done, important, importantButton} = this.state;
         let classNames = "todo-list-item";
@@ -62,7 +67,7 @@ class ToDoListItem extends Component {
                         </IconButton>
                 }
 
-                <IconButton>
+                <IconButton onClick={onDeleted}>
                     <DeleteIcon aria-label="delete"/>
                 </IconButton>
             </div>
