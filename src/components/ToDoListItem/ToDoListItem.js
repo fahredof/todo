@@ -1,78 +1,46 @@
-import React, {Component} from "react";
+import React from "react";
 import "./ToDoListItem.css";
 
-import TurnedInNotIcon from '@material-ui/icons/TurnedInNot';
-import TurnedInIcon from '@material-ui/icons/TurnedIn';
-import DeleteIcon from '@material-ui/icons/Delete';
 import IconButton from "@material-ui/core/IconButton";
+import DeleteIcon from '@material-ui/icons/Delete';
 
-export default class ToDoListItem extends Component {
+import LockButton from "./LockButton";
+import UnlockButton from "./UnlockButton";
 
-    state = {
-        done: false,
-        important: false,
-        importantButton: false
-    };
+const ToDoListItem = (props) => {
 
-    onLabelClick = () => {
-        this.setState(({done}) => {
-            return {
-                done: !done
-            }
-        });
-    };
+    const {onDeleted, onToggleImportant, onToggleDone} = props;
+    const {label, done, important, importantButton} = props;
+    let classNames = "todo-list-item";
 
-    onMarkImportant = () => {
-        this.setState(({important, importantButton}) => {
-            return {
-                important: !important,
-                importantButton: !importantButton
-            }
-        });
-    };
+    if (done) {
+        classNames += " done";
+    }
 
-    render() {
-        const {onDeleted, onToggleImportant, onToggleDone} = this.props;
-        const {label} = this.props;
-        const {done, important, importantButton} = this.state;
-        let classNames = "todo-list-item";
+    if (important) {
+        classNames += " important";
+    }
 
-        if (done) {
-            classNames += " done";
-        }
-
-        if (important) {
-            classNames += " important";
-        }
-
-        return (
-            <div>
+    return (
+        <div>
                 <span
                     className={classNames}
-                    onClick={this.onLabelClick}
+                    onClick={onToggleDone}
                 >
                     {label}
                 </span>
 
-                {
-                    importantButton ?
-                        <IconButton
-                            onClick={this.onMarkImportant}
-                            //onClick={this.onToggleImportant}
-                        >
-                            <TurnedInIcon aria-label="delete"/>
-                        </IconButton>
-                        :
-                        <IconButton onClick={this.onMarkImportant}>
-                            <TurnedInNotIcon aria-label="delete"/>
-                        </IconButton>
-                }
+            {
+                importantButton ?
+                    <UnlockButton mark={onToggleImportant}/>
+                    : <LockButton mark={onToggleImportant}/>
+            }
 
-                <IconButton onClick={onDeleted}>
-                    <DeleteIcon aria-label="delete"/>
-                </IconButton>
-            </div>
-        );
+            <IconButton onClick={onDeleted}>
+                <DeleteIcon aria-label="delete"/>
+            </IconButton>
+        </div>
+    );
+};
 
-    }
-}
+export default ToDoListItem;

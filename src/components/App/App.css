@@ -1,9 +1,9 @@
 .body {
     display: grid;
     grid-template-areas:
-    "header header"
+    "logo status"
     "search filter"
     "list list"
     "add add";
-    grid-gap: 10px;
+    grid-gap: 20px;
 }

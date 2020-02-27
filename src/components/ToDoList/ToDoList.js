@@ -1,10 +1,10 @@
 import React from 'react';
 import './ToDoList.css';
 
-import ToDoListItem from "../ToDoListItem";
-
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
+
+import ToDoListItem from "../ToDoListItem";
 
 const ToDoList = ({toDoData, onDeleted, onToggleImportant, onToggleDone}) => {
     const elements = toDoData.map((item) => {

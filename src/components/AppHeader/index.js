@@ -1,2 +1,2 @@
-import AppHeader from "./AppHeader";
-export default AppHeader;
+import AppLogo from "./AppLogo";
+export default AppLogo;

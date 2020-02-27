@@ -1,7 +1,8 @@
 import React, {Component} from "react";
 import "./App.css";
 
-import AppHeader from "../AppHeader";
+import AppLogo from "../AppHeader";
+import ItemStatus from "../ItemStatus";
 import SearchPanel from "../SearchPanel";
 import ToDoList from "../ToDoList";
 import StatusFilter from "../StatusFilter";
@@ -12,19 +13,26 @@ export default class App extends Component {
 
     state = {
         toDoData: [
-            {label: `Drink Coffee`, important: false, id: 1},
-            {label: `Create React App`, important: true, id: 2},
-            {label: `Create Awesome App`, important: false, id: 3}
+            {label: `Drink Coffee`, important: false, done: false, importantButton: false, id: 1},
+            {label: `Create React App`, important: false, done: false, importantButton: false, id: 2},
+            {label: `Create Awesome App`, important: false, done: false, importantButton: false, id: 3}
         ]
+    };
+
+    searchIndex = (data, id) => {
+        const index = data.findIndex((element) => element.id === id);
+        return index;
     };
 
     deleteItem = (id) => {
         this.setState(({toDoData}) => {
-            const idx = toDoData.findIndex((element) => element.id === id);
+            const idx = this.searchIndex(toDoData, id);
+
             const newArray = [
                 ...toDoData.slice(0, idx),
                 ...toDoData.slice(idx + 1),
             ];
+
             return {
                 toDoData: newArray
             }
@@ -35,11 +43,14 @@ export default class App extends Component {
         const newItem = {
             label: text,
             important: false,
+            done: false,
+            importantButton: false,
             id: this.maxId++
         };
 
         this.setState(({toDoData}) => {
             const newArray = [...toDoData, newItem];
+
             return {
                 toDoData: newArray
             }
@@ -47,17 +58,37 @@ export default class App extends Component {
     };
 
     onToggleImportant = (id) => {
-        console.log("Important", id)
+        this.setState(({toDoData}) => {
+            const idx = this.searchIndex(toDoData, id);
+            let newArray = toDoData;
+
+            newArray[idx].important = !toDoData[idx].important;
+            newArray[idx].importantButton = !toDoData[idx].importantButton;
+
+            return {
+                toDoData: newArray
+            }
+        });
     };
 
     onToggleDone = (id) => {
-        console.log("Done", id)
+        this.setState(({toDoData}) => {
+            const idx = this.searchIndex(toDoData, id);
+            let newArray = toDoData;
+
+            newArray[idx].done = !toDoData[idx].done;
+
+            return {
+                toDoData: newArray
+            }
+        });
     };
 
     render() {
         return (
             <div className="body">
-                <AppHeader/>
+                <AppLogo/>
+                <ItemStatus/>
                 <SearchPanel/>
                 <StatusFilter/>
                 <ToDoList
