@@ -10,7 +10,7 @@ import UnlockButton from "./UnlockButton";
 const ToDoListItem = (props) => {
 
     const {onDeleted, onToggleImportant, onToggleDone} = props;
-    const {label, done, important, importantButton} = props;
+    const {label, done, important, importantButton, onToggleImportantButton} = props;
     let classNames = "todo-list-item";
 
     if (done) {
@@ -22,19 +22,25 @@ const ToDoListItem = (props) => {
     }
 
     return (
-        <div>
-                <span
-                    className={classNames}
-                    onClick={onToggleDone}
-                >
-                    {label}
-                </span>
+        <div className="pizda">
+            <span
+                className={classNames}
+                onClick={onToggleDone}
+            >
+                {label}
+            </span>
 
-            {
-                importantButton ?
-                    <UnlockButton mark={onToggleImportant}/>
-                    : <LockButton mark={onToggleImportant}/>
-            }
+                {
+                    importantButton ?
+                        <UnlockButton
+                            markText={onToggleImportant}
+                            changeButton={onToggleImportantButton}
+                        />
+                        : <LockButton
+                            markText={onToggleImportant}
+                            changeButton={onToggleImportantButton}
+                        />
+                }
 
             <IconButton onClick={onDeleted}>
                 <DeleteIcon aria-label="delete"/>

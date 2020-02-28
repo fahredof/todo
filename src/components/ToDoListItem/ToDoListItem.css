@@ -1,5 +1,6 @@
-.todo-list-item {
+.todo-list .todo-list-item {
     cursor: pointer;
+    flex-grow: 3;
 }
 
 .done {

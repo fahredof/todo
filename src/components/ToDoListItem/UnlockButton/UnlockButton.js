@@ -1,12 +1,15 @@
 import React from "react";
 
 import IconButton from "@material-ui/core/IconButton";
-import TurnedInNotIcon from "@material-ui/icons/TurnedInNot";
+import TurnedInIcon from "@material-ui/icons/TurnedIn";
 
-const UnlockButton = ({mark}) => {
+const UnlockButton = ({markText, changeButton}) => {
     return (
-        <IconButton onClick={mark}>
-            <TurnedInNotIcon/>
+        <IconButton onClick={() => {
+            markText();
+            changeButton();
+        }}>
+            <TurnedInIcon/>
         </IconButton>
     );
 };

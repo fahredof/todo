@@ -1,13 +1,22 @@
 import React from "react";
 import "./SearchPanel.css";
 
-import TextField from '@material-ui/core/TextField';
+import Input from "@material-ui/core/Input";
 
-const SearchPanel = () => {
+const SearchPanel = (props) => {
+    const {searchItem} = props;
+
+    const onChangeSearch = (event) => {
+        searchItem(event);
+    };
+
     return (
-        <div className="search-panel">
-            <TextField id="standard-basic" label="search"/>
-        </div>
+        <form className="search-panel">
+            <Input
+                placeholder="search"
+                onChange={onChangeSearch}
+            />
+        </form>
     );
 };
 

@@ -3,9 +3,12 @@ import React from "react";
 import IconButton from "@material-ui/core/IconButton";
 import TurnedInNotIcon from "@material-ui/icons/TurnedInNot";
 
-const LockButton = ({mark}) => {
+const LockButton = ({markText, changeButton}) => {
     return (
-        <IconButton onClick={mark}>
+        <IconButton onClick={() => {
+            markText();
+            changeButton();
+        }}>
             <TurnedInNotIcon/>
         </IconButton>
     );

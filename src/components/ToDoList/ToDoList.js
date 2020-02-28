@@ -6,7 +6,14 @@ import ListItem from "@material-ui/core/ListItem";
 
 import ToDoListItem from "../ToDoListItem";
 
-const ToDoList = ({toDoData, onDeleted, onToggleImportant, onToggleDone}) => {
+const ToDoList = (props) => {
+
+    const {toDoData} = props;
+    const {
+        onDeleted, onToggleImportant,
+        onToggleImportantButton, onToggleDone
+    } = props;
+
     const elements = toDoData.map((item) => {
         const {id, ...itemProps} = item;
 
@@ -16,6 +23,7 @@ const ToDoList = ({toDoData, onDeleted, onToggleImportant, onToggleDone}) => {
                     {...itemProps}
                     onDeleted={() => onDeleted(id)}
                     onToggleImportant={() => onToggleImportant(id)}
+                    onToggleImportantButton={() => onToggleImportantButton(id)}
                     onToggleDone={() => onToggleDone(id)}
                 />
             </ListItem>

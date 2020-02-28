@@ -3,19 +3,48 @@ import "./AddItem.css";
 
 import IconButton from "@material-ui/core/IconButton";
 import AddIcon from '@material-ui/icons/Add';
-import TextField from "@material-ui/core/TextField";
+import Input from "@material-ui/core/Input";
 
 export default class AddItem extends Component {
-    render() {
-        const {onAdded} = this.props;
+    state = {
+        label: ``
+    };
 
+    onChangeLabel = (event) => {
+        this.setState({
+            label: event.target.value
+        })
+    };
+
+    onSubmit = (event) => {
+        const toDo = this.state.label;
+
+        if (toDo) {
+            this.props.onAdded(toDo);
+            this.setState(({
+                label: ``
+            }))
+        }
+        event.preventDefault();
+    };
+
+    render() {
         return (
-            <div className="add-item">
-                <TextField id="standard-basic" label="add"/>
-                <IconButton onClick={() => onAdded("Hello world")}>
+            <form
+                className="add-item"
+                onSubmit={this.onSubmit}
+            >
+                <Input
+                    value={this.state.label}
+                    placeholder="add"
+                    onChange={this.onChangeLabel}
+                />
+
+                <IconButton type="submit">
                     <AddIcon/>
                 </IconButton>
-            </div>
+
+            </form>
         );
     }
 }
