@@ -17,7 +17,9 @@ export default class App extends Component {
             this.createToDoItem(`Create React App`),
             this.createToDoItem(`Create Awesome App`)
         ],
-        term: ``
+        term: ``,
+        activeItems: false,
+        doneItems: false
     };
 
     createToDoItem(label) {
@@ -90,26 +92,65 @@ export default class App extends Component {
         })
     };
 
-    filterItems = (items, term) => {
-        if (term.length === 0) return items;
+    filterItems = (items, term, active, done) => {
+        if (term.length === 0 && active === false && done === false) return items;
 
-        return items.filter((element) => {
-           return element.label.toLowerCase().indexOf(term.toLowerCase()) > -1
-        });
+        if (term) {
+            return items.filter((element) => {
+                return element.label.toLowerCase().indexOf(term.toLowerCase()) > -1
+            });
+        } else if (active === true) {
+            return items.filter((element) => {
+                return element.done === false
+            });
+        } else if (done === true) {
+            return items.filter((element) => {
+                return element.done === true
+            });
+        }
     };
 
     searchItem = (event) => {
-      const term = event.target.value;
-      this.setState({term});
+        const term = event.target.value;
+        this.setState({term});
+    };
+
+    filterByActive = () => {
+        this.setState(() => {
+            return {
+                doneItems: false,
+                activeItems: true
+            };
+        });
+    };
+
+    filterByDone = () => {
+        this.setState(() => {
+            return {
+                activeItems: false,
+                doneItems: true
+            };
+        });
+    };
+
+    filterByAll = () => {
+        this.setState(() => {
+            return {
+                activeItems: false,
+                doneItems: false
+            };
+        });
     };
 
     render() {
-        const {toDoData, term} = this.state;
+        const {toDoData, term, activeItems, doneItems} = this.state;
 
         const doneCount = toDoData
             .filter((element) => element.done).length;
+
         const toDoCount = toDoData.length - doneCount;
-        const visibleItems = this.filterItems(toDoData, term);
+
+        const visibleItems = this.filterItems(toDoData, term, activeItems, doneItems);
 
         return (
             <div className="body">
@@ -118,7 +159,11 @@ export default class App extends Component {
                 <SearchPanel
                     searchItem={(event) => this.searchItem(event)}
                 />
-                <StatusFilter/>
+                <StatusFilter
+                    filterByAll={this.filterByAll}
+                    filterByActive={this.filterByActive}
+                    filterByDone={this.filterByDone}
+                />
                 <ToDoList
                     toDoData={visibleItems}
                     onDeleted={(id) => this.deleteItem(id)}
