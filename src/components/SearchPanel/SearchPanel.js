@@ -4,10 +4,10 @@ import "./SearchPanel.css";
 import Input from "@material-ui/core/Input";
 
 const SearchPanel = (props) => {
-    const {searchItem} = props;
+    const {onTermChange} = props;
 
     const onChangeSearch = (event) => {
-        searchItem(event);
+        onTermChange(event);
     };
 
     return (

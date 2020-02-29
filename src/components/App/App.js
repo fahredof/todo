@@ -18,8 +18,7 @@ export default class App extends Component {
             this.createToDoItem(`Create Awesome App`)
         ],
         term: ``,
-        activeItems: false,
-        doneItems: false
+        filter: `all`,
     };
 
     createToDoItem(label) {
@@ -92,77 +91,62 @@ export default class App extends Component {
         })
     };
 
-    filterItems = (items, term, active, done) => {
-        if (term.length === 0 && active === false && done === false) return items;
-
-        if (term) {
+    searchItems = (items, term) => {
+        if (term.length === 0) return items;
+        else {
             return items.filter((element) => {
                 return element.label.toLowerCase().indexOf(term.toLowerCase()) > -1
-            });
-        } else if (active === true) {
-            return items.filter((element) => {
-                return element.done === false
-            });
-        } else if (done === true) {
-            return items.filter((element) => {
-                return element.done === true
             });
         }
     };
 
-    searchItem = (event) => {
+    filterStatus = (items, filter) => {
+        switch (filter) {
+            case "add":
+                return items;
+            case "active":
+                return items.filter((element) => {
+                    return !element.done
+                });
+            case "done":
+                return items.filter((element) => {
+                    return element.done
+                });
+            default:
+                return items;
+        }
+    };
+
+    onTermChange = (event) => {
         const term = event.target.value;
         this.setState({term});
     };
 
-    filterByActive = () => {
-        this.setState(() => {
-            return {
-                doneItems: false,
-                activeItems: true
-            };
-        });
-    };
-
-    filterByDone = () => {
-        this.setState(() => {
-            return {
-                activeItems: false,
-                doneItems: true
-            };
-        });
-    };
-
-    filterByAll = () => {
-        this.setState(() => {
-            return {
-                activeItems: false,
-                doneItems: false
-            };
-        });
+    onFilterChange = (filter) => {
+        this.setState({filter})
     };
 
     render() {
-        const {toDoData, term, activeItems, doneItems} = this.state;
+        const {toDoData, term, filter} = this.state;
 
         const doneCount = toDoData
             .filter((element) => element.done).length;
 
         const toDoCount = toDoData.length - doneCount;
 
-        const visibleItems = this.filterItems(toDoData, term, activeItems, doneItems);
+        const visibleItems = this.filterStatus(
+            this.searchItems(toDoData, term), filter);
 
         return (
             <div className="body">
                 <AppLogo/>
                 <ToDoItemStatus toDo={toDoCount} done={doneCount}/>
                 <SearchPanel
-                    searchItem={(event) => this.searchItem(event)}
+                    onTermChange={(event) => this.onTermChange(event)}
                 />
                 <StatusFilter
-                    filterByAll={this.filterByAll}
-                    filterByActive={this.filterByActive}
-                    filterByDone={this.filterByDone}
+                    filter={filter}
+                    onFilterChange={(filter) => this.onFilterChange(filter)}
                 />
                 <ToDoList
                     toDoData={visibleItems}
